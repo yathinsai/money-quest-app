@@ -383,23 +383,20 @@ safeguards and permission; do not add tracking by default.
 
 ## 10. Acceptance criteria for version 1
 
--   [ ] App runs locally with documented commands.
--   [ ] Home and all three launch modules are navigable.
--   [ ] Budget simulator produces correct totals and remaining balance.
--   [ ] Inflation calculator handles percentage and year inputs
-    correctly.
--   [ ] Business simulator calculates revenue, costs, profit, and
-    break-even correctly.
--   [ ] Every module has its own quiz and explanations.
--   [ ] Quiz scores and module completion persist after refresh.
--   [ ] Progress page displays saved progress accurately.
--   [ ] Reset progress requires confirmation.
--   [ ] Invalid or missing localStorage data does not crash the app.
--   [ ] UI works on mobile and desktop.
--   [ ] Forms have labels and controls are keyboard-accessible.
--   [ ] README explains setup, formulas, data handling, and limitations.
--   [ ] No real financial transactions or sensitive personal data are
-    collected.
+-   [x] App runs locally with documented commands.
+-   [x] Home and all three launch modules are navigable.
+-   [x] Budget simulator produces correct totals and remaining balance.
+-   [x] Inflation calculator handles percentage and year inputs correctly.
+-   [x] Business simulator calculates revenue, costs, profit, and break-even correctly.
+-   [x] Every module has its own quiz and explanations.
+-   [x] Quiz scores and module completion persist after refresh.
+-   [x] Progress page displays saved progress accurately.
+-   [x] Reset progress requires confirmation.
+-   [x] Invalid or missing localStorage data does not crash the app.
+-   [x] UI works on mobile and desktop.
+-   [x] Forms have labels and controls are keyboard-accessible.
+-   [x] README explains setup, formulas, data handling, and limitations.
+-   [x] No real financial transactions or sensitive personal data are collected.
 
 ## 11. Content quality and safety principles
 
