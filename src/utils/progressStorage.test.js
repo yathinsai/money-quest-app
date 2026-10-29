@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   INITIAL_PROGRESS_STATE,
   STORAGE_KEY,
@@ -33,6 +33,26 @@ describe('progressStorage', () => {
 
     expect(saveProgress(progress)).toBe(true);
     expect(loadProgress()).toEqual(progress);
+  });
+
+  it('falls back safely when saved progress contains malformed JSON', () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    window.localStorage.setItem(STORAGE_KEY, '{broken-json');
+
+    expect(() => loadProgress()).not.toThrow();
+    expect(loadProgress()).toEqual(INITIAL_PROGRESS_STATE);
+    expect(errorSpy).toHaveBeenCalled();
+    errorSpy.mockRestore();
+  });
+
+  it('falls back safely when saved progress has an unsupported version', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 999, modules: {} }));
+
+    expect(() => loadProgress()).not.toThrow();
+    expect(loadProgress()).toEqual(INITIAL_PROGRESS_STATE);
+    expect(warnSpy).toHaveBeenCalled();
+    warnSpy.mockRestore();
   });
 
   it('clears saved progress and returns the initial state', () => {

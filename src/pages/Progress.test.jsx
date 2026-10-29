@@ -37,6 +37,9 @@ describe('Progress reset confirmation', () => {
     renderProgress();
 
     await user.click(screen.getByRole('button', { name: /reset all progress/i }));
+    expect(screen.getByRole('dialog', { name: /reset all progress/i })).toBeInTheDocument();
+    expect(JSON.parse(window.localStorage.getItem(STORAGE_KEY))).toEqual(savedProgress);
+
     await user.click(screen.getByRole('button', { name: /yes, reset everything/i }));
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();

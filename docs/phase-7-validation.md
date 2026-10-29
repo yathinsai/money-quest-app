@@ -17,9 +17,12 @@ Current automated coverage includes:
 - Budget surplus, balanced, deficit, zero-income, zero-expense, invalid-input, and large-value calculations.
 - Compound inflation, zero-price, zero-year, zero-rate, invalid-input, and large-value calculations.
 - Business revenue, cost, profit, loss, zero-unit, invalid-input, large-value, contribution-margin, and break-even calculations.
-- Correct quiz answer feedback, explanations, successful scoring, completion, and persistence.
-- Initial and valid saved progress in `localStorage`.
-- Confirming a progress reset and clearing saved data.
+- Correct and incorrect quiz scoring, post-answer explanations, and final results.
+- Module completion at exactly the 70% passing threshold.
+- Quiz retakes that update the latest score and attempt count while preserving the best score.
+- Progress restored from `localStorage` after the app is unmounted and reopened.
+- Empty, valid, malformed, and unsupported-version saved progress handled without crashing.
+- Reset confirmation that leaves progress intact until approved, then clears all saved data.
 - Descriptive browser titles for every route and the not-found page.
 
 The GitHub Pages workflow runs tests before every production build and deployment.

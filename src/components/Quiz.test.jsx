@@ -36,6 +36,13 @@ async function answerQuestion(user, optionName) {
   await user.click(screen.getByRole('button', { name: /check answer/i }));
 }
 
+async function finishQuiz(user, firstAnswer, secondAnswer) {
+  await answerQuestion(user, firstAnswer);
+  await user.click(screen.getByRole('button', { name: /next question/i }));
+  await answerQuestion(user, secondAnswer);
+  await user.click(screen.getByRole('button', { name: /see final score/i }));
+}
+
 describe('Quiz', () => {
   it('shows feedback and an explanation after checking an answer', async () => {
     const user = userEvent.setup();
@@ -52,10 +59,7 @@ describe('Quiz', () => {
     const user = userEvent.setup();
     renderQuiz();
 
-    await answerQuestion(user, 'Keep spending within income');
-    await user.click(screen.getByRole('button', { name: /next question/i }));
-    await answerQuestion(user, 'Unexpected costs');
-    await user.click(screen.getByRole('button', { name: /see final score/i }));
+    await finishQuiz(user, 'Keep spending within income', 'Unexpected costs');
 
     expect(screen.getByText('Quiz Passed!')).toBeInTheDocument();
     expect(screen.getByText('(100%)')).toBeInTheDocument();
@@ -70,6 +74,28 @@ describe('Quiz', () => {
         attempts: 1,
       });
       expect(saved.modules.budgeting.lastAttemptAt).toEqual(expect.any(String));
+    });
+  });
+
+  it('updates the latest score and attempts while preserving the best score on a retake', async () => {
+    const user = userEvent.setup();
+    renderQuiz();
+
+    await finishQuiz(user, 'Keep spending within income', 'Unexpected costs');
+    await user.click(screen.getByRole('button', { name: /retake quiz/i }));
+    await finishQuiz(user, 'Keep spending within income', 'Daily snacks');
+
+    expect(screen.getByText('Keep Practicing')).toBeInTheDocument();
+    expect(screen.getByText('(50%)')).toBeInTheDocument();
+
+    await waitFor(() => {
+      const saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY));
+      expect(saved.modules.budgeting).toMatchObject({
+        completed: true,
+        bestScore: 2,
+        lastScore: 1,
+        attempts: 2,
+      });
     });
   });
 });
