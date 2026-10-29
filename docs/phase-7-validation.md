@@ -12,11 +12,11 @@ npm run build
 npm audit
 ```
 
-Current automated coverage focuses on successful user journeys and includes:
+Current automated coverage includes:
 
-- Budget surplus, balanced, deficit, and zero-income calculations.
-- Compound inflation, zero-year, and zero-rate calculations.
-- Business revenue, cost, profit, loss, contribution margin, and break-even edge cases.
+- Budget surplus, balanced, deficit, zero-income, zero-expense, invalid-input, and large-value calculations.
+- Compound inflation, zero-price, zero-year, zero-rate, invalid-input, and large-value calculations.
+- Business revenue, cost, profit, loss, zero-unit, invalid-input, large-value, contribution-margin, and break-even calculations.
 - Correct quiz answer feedback, explanations, successful scoring, completion, and persistence.
 - Initial and valid saved progress in `localStorage`.
 - Confirming a progress reset and clearing saved data.

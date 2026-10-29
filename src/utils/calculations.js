@@ -87,8 +87,7 @@ export function calculateBudget(income, expenses) {
 export function calculateFuturePrice(currentPrice, annualRatePercent, years) {
   const cleanPrice = sanitizeNonNegative(currentPrice, 0);
   const cleanYears = sanitizeNonNegative(years, 0);
-  const numRate = Number(annualRatePercent);
-  const cleanRate = isNaN(numRate) || !isFinite(numRate) ? 0 : numRate;
+  const cleanRate = sanitizeNonNegative(annualRatePercent, 0);
 
   const decimalRate = cleanRate / 100;
   const factor = Math.pow(1 + decimalRate, cleanYears);

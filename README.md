@@ -85,7 +85,7 @@ $$\text{Learn} \longrightarrow \text{Experiment} \longrightarrow \text{Take a Qu
    ```bash
    npm test
    ```
-   The suite covers the primary successful flows for calculations, quiz completion, saved progress, reset confirmation, and route titles. See the [Phase 7 validation record](./docs/phase-7-validation.md) for completed checks and remaining manual testing.
+   The suite covers financial calculation edge cases plus the primary successful flows for quiz completion, saved progress, reset confirmation, and route titles. See the [Phase 7 validation record](./docs/phase-7-validation.md) for completed checks and remaining manual testing.
 
 5. **Build for production:**
    ```bash

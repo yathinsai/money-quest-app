@@ -16,6 +16,9 @@ describe('Financial Calculation Utilities', () => {
     it('falls back to 0 for negative numbers or invalid input', () => {
       expect(sanitizeNonNegative(-10)).toBe(0);
       expect(sanitizeNonNegative('not-a-number')).toBe(0);
+      expect(sanitizeNonNegative(Number.POSITIVE_INFINITY)).toBe(0);
+      expect(sanitizeNonNegative(Number.NEGATIVE_INFINITY)).toBe(0);
+      expect(sanitizeNonNegative(Number.NaN)).toBe(0);
       expect(sanitizeNonNegative(null)).toBe(0);
       expect(sanitizeNonNegative(undefined)).toBe(0);
     });
@@ -59,6 +62,45 @@ describe('Financial Calculation Utilities', () => {
       expect(result.savingsRate).toBe(0);
       expect(result.status).toBe('balanced');
     });
+
+    it('handles zero income with expenses as a deficit', () => {
+      const result = calculateBudget(0, [{ id: '1', name: 'Supplies', amount: 50 }]);
+      expect(result.totalExpenses).toBe(50);
+      expect(result.remainingMoney).toBe(-50);
+      expect(result.savingsRate).toBe(0);
+      expect(result.status).toBe('deficit');
+    });
+
+    it('handles income with zero expenses as a 100% surplus', () => {
+      const result = calculateBudget(250, []);
+      expect(result.totalExpenses).toBe(0);
+      expect(result.remainingMoney).toBe(250);
+      expect(result.savingsRate).toBe(100);
+      expect(result.status).toBe('surplus');
+    });
+
+    it('ignores invalid expense values instead of corrupting the total', () => {
+      const result = calculateBudget('invalid-income', [
+        { id: '1', name: 'Negative', amount: -25 },
+        { id: '2', name: 'Invalid', amount: 'not-a-number' },
+        { id: '3', name: 'Valid', amount: 40 },
+      ]);
+      expect(result.totalIncome).toBe(0);
+      expect(result.totalExpenses).toBe(40);
+      expect(result.remainingMoney).toBe(-40);
+      expect(result.status).toBe('deficit');
+    });
+
+    it('calculates large finite budget values without losing whole-dollar accuracy', () => {
+      const result = calculateBudget(1_000_000_000, {
+        housing: 400_000_000,
+        transportation: 150_000_000,
+        food: 50_000_000,
+      });
+      expect(result.totalExpenses).toBe(600_000_000);
+      expect(result.remainingMoney).toBe(400_000_000);
+      expect(result.savingsRate).toBe(40);
+    });
   });
 
   describe('calculateFuturePrice (Inflation)', () => {
@@ -80,6 +122,30 @@ describe('Financial Calculation Utilities', () => {
       const result = calculateFuturePrice(75, 0, 10);
       expect(result.futurePrice).toBe(75);
       expect(result.priceDifference).toBe(0);
+    });
+
+    it('handles zero price, inflation, and years', () => {
+      const result = calculateFuturePrice(0, 0, 0);
+      expect(result.futurePrice).toBe(0);
+      expect(result.priceDifference).toBe(0);
+      expect(result.percentIncrease).toBe(0);
+      expect(result.purchasingPowerLostPercent).toBe(0);
+    });
+
+    it('sanitizes invalid and negative inflation inputs', () => {
+      const result = calculateFuturePrice('invalid-price', -5, 'invalid-years');
+      expect(result.currentPrice).toBe(0);
+      expect(result.annualRate).toBe(0);
+      expect(result.years).toBe(0);
+      expect(result.futurePrice).toBe(0);
+    });
+
+    it('calculates a large compound-growth scenario to two decimal places', () => {
+      // $1,000,000 at 10% for 10 years = $2,593,742.4601...
+      const result = calculateFuturePrice(1_000_000, 10, 10);
+      expect(result.futurePrice).toBe(2_593_742.46);
+      expect(result.priceDifference).toBe(1_593_742.46);
+      expect(result.percentIncrease).toBe(159.4);
     });
   });
 
@@ -126,6 +192,36 @@ describe('Financial Calculation Utilities', () => {
       expect(result.canBreakEven).toBe(false);
       expect(result.breakEvenUnits).toBeNull();
       expect(result.profit).toBe(-100);
+    });
+
+    it('handles zero units sold while retaining fixed costs', () => {
+      const result = calculateBusinessProfit(12, 0, 5, 140);
+      expect(result.revenue).toBe(0);
+      expect(result.variableCosts).toBe(0);
+      expect(result.totalCost).toBe(140);
+      expect(result.profit).toBe(-140);
+      expect(result.isProfitable).toBe(false);
+      expect(result.breakEvenUnits).toBe(20);
+    });
+
+    it('sanitizes invalid and negative business inputs', () => {
+      const result = calculateBusinessProfit('invalid', -10, Number.POSITIVE_INFINITY, -50);
+      expect(result.revenue).toBe(0);
+      expect(result.variableCosts).toBe(0);
+      expect(result.fixedCosts).toBe(0);
+      expect(result.totalCost).toBe(0);
+      expect(result.profit).toBe(0);
+      expect(result.canBreakEven).toBe(false);
+      expect(result.breakEvenUnits).toBeNull();
+    });
+
+    it('calculates large finite business values accurately', () => {
+      const result = calculateBusinessProfit(1_000_000, 1_000_000, 400_000, 100_000_000_000);
+      expect(result.revenue).toBe(1_000_000_000_000);
+      expect(result.variableCosts).toBe(400_000_000_000);
+      expect(result.totalCost).toBe(500_000_000_000);
+      expect(result.profit).toBe(500_000_000_000);
+      expect(result.breakEvenUnits).toBe(166_667);
     });
   });
 });
