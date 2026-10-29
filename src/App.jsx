@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { ProgressProvider } from './context/ProgressContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -15,7 +15,7 @@ import NotFound from './pages/NotFound';
 export default function App() {
   return (
     <ProgressProvider>
-      <BrowserRouter>
+      <HashRouter>
         <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans">
           <Navbar />
           <main className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
@@ -31,7 +31,7 @@ export default function App() {
           </main>
           <Footer />
         </div>
-      </BrowserRouter>
+      </HashRouter>
     </ProgressProvider>
   );
 }
