@@ -94,6 +94,46 @@ $$\text{Learn} \longrightarrow \text{Experiment} \longrightarrow \text{Take a Qu
 
 ---
 
+## 🌐 Deploy to GitHub Pages with GitHub Actions
+
+This repository is already configured to build and deploy with [GitHub Actions](./.github/workflows/deploy.yml). Vite uses `/money-quest-app/` as its production base path, and the app uses `HashRouter` so client-side routes work when hosted by GitHub Pages.
+
+### One-time GitHub setup
+
+1. Push the project to a GitHub repository named `money-quest-app` with `main` as its default branch.
+2. Open the repository on GitHub and go to **Settings → Pages**.
+3. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+4. Go to **Settings → Actions → General**. Under **Actions permissions**, either:
+   * Select **Allow all actions and reusable workflows**, or
+   * Allow actions created by GitHub so the workflow can use `actions/checkout`, `actions/setup-node`, and the official GitHub Pages actions.
+5. Save the settings.
+
+GitHub Pages is available for public repositories on GitHub Free. Using Pages with a private repository requires an eligible paid GitHub plan.
+
+### Deploy
+
+Every push to `main` automatically runs the deployment workflow:
+
+```bash
+git add .
+git commit -m "Describe your changes"
+git push origin main
+```
+
+The workflow installs dependencies with `npm ci`, runs the test suite, builds the production files in `dist/`, uploads that directory, and deploys it to GitHub Pages.
+
+To start a deployment manually, open **Actions → Deploy to GitHub Pages → Run workflow** in the GitHub repository.
+
+After a successful deployment, the application is available at:
+
+```text
+https://yathinsai.github.io/money-quest-app/
+```
+
+If the repository name changes, update `base` in [`vite.config.js`](./vite.config.js) to `/<new-repository-name>/` before deploying.
+
+---
+
 ## 🔒 Privacy & Architecture Rationale
 
 For detailed architectural considerations regarding why `localStorage` was selected over a cloud database (Supabase/Neon) for Version 1, see [`localstorage-vs-database.md`](./localstorage-vs-database.md).
