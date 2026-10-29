@@ -1,6 +1,7 @@
 export const budgetingQuestions = [
   {
     id: 'b1',
+    difficulty: 'beginner',
     question: 'What is the main difference between a "need" and a "want"?',
     options: [
       'Needs are things essential for living and health; wants are things that are nice to have.',
@@ -13,6 +14,7 @@ export const budgetingQuestions = [
   },
   {
     id: 'b2',
+    difficulty: 'intermediate',
     question: 'If you earn $50 from weekend chores and plan to spend $20 on snacks, $15 on movies, and $25 on a new game, what is your budget status?',
     options: [
       'You have a $10 surplus (extra money).',
@@ -25,6 +27,7 @@ export const budgetingQuestions = [
   },
   {
     id: 'b3',
+    difficulty: 'beginner',
     question: 'What does "paying yourself first" mean in budgeting?',
     options: [
       'Buying whatever you want before paying your bills.',
@@ -37,6 +40,7 @@ export const budgetingQuestions = [
   },
   {
     id: 'b4',
+    difficulty: 'advanced',
     question: 'Why should you avoid counting the same savings amount as both an "expense" and "available money to spend"?',
     options: [
       'Because the bank will close your account.',
@@ -49,6 +53,7 @@ export const budgetingQuestions = [
   },
   {
     id: 'b5',
+    difficulty: 'intermediate',
     question: 'What is the best way to handle an unexpected expense (like a broken bicycle tire)?',
     options: [
       'Borrow money with high-interest loans immediately.',

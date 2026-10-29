@@ -1,6 +1,7 @@
 export const businessProfitQuestions = [
   {
     id: 'p1',
+    difficulty: 'beginner',
     question: 'What is the key difference between Revenue and Profit?',
     options: [
       'Revenue is the total money collected from sales; profit is what remains after paying all expenses.',
@@ -13,6 +14,7 @@ export const businessProfitQuestions = [
   },
   {
     id: 'p2',
+    difficulty: 'beginner',
     question: 'Which of the following is the best example of a "fixed cost" for a lemonade stand?',
     options: [
       'The fresh lemons and sugar bought for each glass of lemonade.',
@@ -25,6 +27,7 @@ export const businessProfitQuestions = [
   },
   {
     id: 'p3',
+    difficulty: 'advanced',
     question: 'You sell handmade bracelets for $10 each. The beads for each bracelet cost $4. Your table rental fee is $30. What is your break-even point?',
     options: [
       '3 bracelets',
@@ -37,6 +40,7 @@ export const businessProfitQuestions = [
   },
   {
     id: 'p4',
+    difficulty: 'intermediate',
     question: 'What happens if a baker sells cupcakes for $2 each, but the flour, sugar, and frosting cost $2.50 per cupcake?',
     options: [
       'The bakery breaks even on the 100th cupcake.',
@@ -49,6 +53,7 @@ export const businessProfitQuestions = [
   },
   {
     id: 'p5',
+    difficulty: 'intermediate',
     question: 'If you sell 50 custom t-shirts at $20 each (Revenue = $1,000), and total costs (shirts + printing screen) are $650, what is your net profit?',
     options: [
       '$1,650',

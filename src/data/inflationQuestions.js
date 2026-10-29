@@ -1,6 +1,7 @@
 export const inflationQuestions = [
   {
     id: 'i1',
+    difficulty: 'beginner',
     question: 'What is inflation in simple terms?',
     options: [
       'The process of banks printing shiny new gold coins.',
@@ -13,6 +14,7 @@ export const inflationQuestions = [
   },
   {
     id: 'i2',
+    difficulty: 'intermediate',
     question: 'If a concert ticket costs $50 today and annual inflation averages 10% per year, what will the ticket cost in 2 years under compound inflation?',
     options: [
       '$60.50',
@@ -25,6 +27,7 @@ export const inflationQuestions = [
   },
   {
     id: 'i3',
+    difficulty: 'advanced',
     question: 'If your savings account pays 1% interest per year, but inflation is 4% per year, what happens to your purchasing power?',
     options: [
       'Your purchasing power increases by 3% every year.',
@@ -37,6 +40,7 @@ export const inflationQuestions = [
   },
   {
     id: 'i4',
+    difficulty: 'intermediate',
     question: 'Which of the following people is typically hurt most by high inflation?',
     options: [
       'Someone living on a fixed income who does not get raises as prices rise.',
@@ -49,6 +53,7 @@ export const inflationQuestions = [
   },
   {
     id: 'i5',
+    difficulty: 'beginner',
     question: 'Why do future-price calculators represent mathematical scenarios rather than exact forecasts?',
     options: [
       'Because the calculators make up numbers randomly.',
