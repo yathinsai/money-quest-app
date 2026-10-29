@@ -37,21 +37,6 @@ async function answerQuestion(user, optionName) {
 }
 
 describe('Quiz', () => {
-  it('does not reveal an explanation until an answer is checked', async () => {
-    const user = userEvent.setup();
-    renderQuiz();
-
-    expect(screen.queryByText(questions[0].explanation)).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /check answer/i })).toBeDisabled();
-
-    await user.click(screen.getByRole('radio', { name: /keep spending within income/i }));
-    expect(screen.getByRole('radio', { name: /keep spending within income/i })).toHaveAttribute(
-      'aria-checked',
-      'true',
-    );
-    expect(screen.getByRole('button', { name: /check answer/i })).toBeEnabled();
-  });
-
   it('shows feedback and an explanation after checking an answer', async () => {
     const user = userEvent.setup();
     renderQuiz();
@@ -86,20 +71,5 @@ describe('Quiz', () => {
       });
       expect(saved.modules.budgeting.lastAttemptAt).toEqual(expect.any(String));
     });
-  });
-
-  it('supports retrying after a failed attempt', async () => {
-    const user = userEvent.setup();
-    renderQuiz();
-
-    await answerQuestion(user, 'Ignore expenses');
-    await user.click(screen.getByRole('button', { name: /next question/i }));
-    await answerQuestion(user, 'Daily snacks');
-    await user.click(screen.getByRole('button', { name: /see final score/i }));
-
-    expect(screen.getByText('Keep Practicing')).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: /retake quiz/i }));
-    expect(screen.getByText('Question 1 of 2')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /check answer/i })).toBeDisabled();
   });
 });

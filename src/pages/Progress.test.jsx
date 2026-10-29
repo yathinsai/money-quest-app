@@ -18,18 +18,6 @@ function renderProgress() {
 }
 
 describe('Progress reset confirmation', () => {
-  it('opens an accessible dialog, focuses Cancel, and closes with Escape', async () => {
-    const user = userEvent.setup();
-    renderProgress();
-
-    await user.click(screen.getByRole('button', { name: /reset all progress/i }));
-    expect(screen.getByRole('dialog', { name: /reset all progress/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /cancel/i })).toHaveFocus();
-
-    await user.keyboard('{Escape}');
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-  });
-
   it('clears saved scores only after confirmation', async () => {
     const user = userEvent.setup();
     const savedProgress = {

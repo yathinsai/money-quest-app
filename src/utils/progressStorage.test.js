@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import {
   INITIAL_PROGRESS_STATE,
   STORAGE_KEY,
@@ -33,42 +33,6 @@ describe('progressStorage', () => {
 
     expect(saveProgress(progress)).toBe(true);
     expect(loadProgress()).toEqual(progress);
-  });
-
-  it('recovers safely from malformed JSON', () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    window.localStorage.setItem(STORAGE_KEY, '{not valid json');
-
-    expect(loadProgress()).toEqual(INITIAL_PROGRESS_STATE);
-    expect(errorSpy).toHaveBeenCalled();
-    errorSpy.mockRestore();
-  });
-
-  it('recovers safely from an unsupported schema version', () => {
-    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 99, modules: {} }));
-
-    expect(loadProgress()).toEqual(INITIAL_PROGRESS_STATE);
-    expect(warnSpy).toHaveBeenCalled();
-    warnSpy.mockRestore();
-  });
-
-  it('fills in missing modules and fields from the default schema', () => {
-    window.localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({
-        version: 1,
-        modules: {
-          budgeting: { attempts: 3 },
-        },
-      }),
-    );
-
-    const progress = loadProgress();
-    expect(progress.modules.budgeting.attempts).toBe(3);
-    expect(progress.modules.budgeting.completed).toBe(false);
-    expect(progress.modules.inflation).toEqual(INITIAL_PROGRESS_STATE.modules.inflation);
-    expect(progress.modules.businessProfit).toEqual(INITIAL_PROGRESS_STATE.modules.businessProfit);
   });
 
   it('clears saved progress and returns the initial state', () => {

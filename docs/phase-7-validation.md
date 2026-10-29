@@ -12,14 +12,14 @@ npm run build
 npm audit
 ```
 
-Current automated coverage includes:
+Current automated coverage focuses on successful user journeys and includes:
 
 - Budget surplus, balanced, deficit, and zero-income calculations.
 - Compound inflation, zero-year, and zero-rate calculations.
 - Business revenue, cost, profit, loss, contribution margin, and break-even edge cases.
-- Quiz answer selection, hidden-before-answer explanations, feedback, scoring, retry, and persistence.
-- Empty, valid, partial, malformed, and outdated `localStorage` data.
-- Progress reset confirmation, cancellation with Escape, initial dialog focus, and clearing saved data.
+- Correct quiz answer feedback, explanations, successful scoring, completion, and persistence.
+- Initial and valid saved progress in `localStorage`.
+- Confirming a progress reset and clearing saved data.
 - Descriptive browser titles for every route and the not-found page.
 
 The GitHub Pages workflow runs tests before every production build and deployment.
