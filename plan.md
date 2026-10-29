@@ -345,16 +345,20 @@ reset intentionally.
 
 ### Phase 7 --- Quality and testing
 
-1.  Test every formula using hand-calculated examples.
-2.  Test quiz scoring, retry, explanations, and saved results.
-3.  Test keyboard-only use and visible focus.
-4.  Test small mobile screens and desktop.
-5.  Check browser console for errors.
-6.  Ask a few volunteer students to try it with appropriate adult
+**Status:** In progress. Automated coverage is complete; real-device,
+keyboard-only, and student validation remain. See
+`docs/phase-7-validation.md` for the test record and manual checklist.
+
+1.  [x] Test every formula using hand-calculated examples.
+2.  [x] Test quiz scoring, retry, explanations, and saved results.
+3.  [ ] Test keyboard-only use and visible focus on the deployed app.
+4.  [ ] Test small mobile screens and desktop on real devices.
+5.  [ ] Check the deployed app's browser console for errors.
+6.  [ ] Ask a few volunteer students to try it with appropriate adult
     permission.
-7.  Ask users what was confusing; record themes without collecting
+7.  [ ] Ask users what was confusing; record themes without collecting
     unnecessary identifying information.
-8.  Fix the highest-impact problems and document what changed.
+8.  [ ] Fix the highest-impact problems and document what changed.
 
 **Done when:** No known blocking bugs remain, calculations are checked,
 and feedback has informed at least one improvement.

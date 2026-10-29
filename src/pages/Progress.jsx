@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Award,
@@ -23,6 +23,21 @@ export default function Progress() {
   const { progress, resetAllProgress, getOverallStats } = useProgress();
   const { completedCount, totalModules, percentage, totalAttempts } = getOverallStats();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const cancelResetRef = useRef(null);
+
+  useEffect(() => {
+    if (!showConfirmModal) return undefined;
+
+    cancelResetRef.current?.focus();
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setShowConfirmModal(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [showConfirmModal]);
 
   const handleConfirmReset = () => {
     resetAllProgress();
@@ -171,20 +186,27 @@ export default function Progress() {
       {/* Reset Confirmation Modal */}
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 max-w-sm w-full shadow-xl space-y-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="reset-progress-title"
+            aria-describedby="reset-progress-description"
+            className="bg-white rounded-2xl border border-slate-200 p-6 max-w-sm w-full shadow-xl space-y-4"
+          >
             <div className="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto">
               <AlertTriangle className="w-6 h-6" />
             </div>
 
             <div className="text-center">
-              <h3 className="text-lg font-bold text-slate-900">Reset All Progress?</h3>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+              <h3 id="reset-progress-title" className="text-lg font-bold text-slate-900">Reset All Progress?</h3>
+              <p id="reset-progress-description" className="text-xs text-slate-500 mt-1 leading-relaxed">
                 This will erase all module completion checkmarks, quiz scores, and attempt counts. This action cannot be undone.
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-3 pt-2">
               <button
+                ref={cancelResetRef}
                 type="button"
                 onClick={() => setShowConfirmModal(false)}
                 className="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors focus-visible:ring-2 focus-visible:ring-slate-400"
